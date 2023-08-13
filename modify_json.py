@@ -1,10 +1,11 @@
 import json
 import dropbox
 
-# TODO: CYPHER TOKEN
-token = "sl.BkA0MwyPgeHLTf2fWyKIzhlV5WMq4xoZfyHeIwp35InogvjHyqVUGCd7AJcNdUBPDR_Kk63-2SQ6dH4UunHe16O_sVApJUD3MbPWzTliRIL5OOLSnpcu7ylQAiKZVkZOE7qljQMx3lAv"
+
 # Initialize dropbox client
-dbx = dropbox.Dropbox(token)
+with open("model/token.json", "r") as config:
+    token = json.load(config)
+    dbx = dropbox.Dropbox(token["DROPBOX_TOKEN"])
 
 dropbox_path = '/citas_datos_Andy.json'
 local_data_json = 'model/data_local.json'
@@ -34,4 +35,5 @@ with open(local_data_json, "w") as f:
 
 # Subir el archivo JSON actualizado (ahora vacío) a Dropbox
 with open(local_data_json, "rb") as f:
-    dbx.files_upload(f.read(), dropbox_path, mode=dropbox.files.WriteMode("overwrite"))
+    dbx.files_upload(f.read(), dropbox_path,
+                     mode=dropbox.files.WriteMode("overwrite"))
