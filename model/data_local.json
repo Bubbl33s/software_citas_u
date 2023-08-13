@@ -1,0 +1,17 @@
+{
+    "id_cita": null,
+    "fecha_prog": null,
+    "hora_prog": null,
+    "ap_pat": null,
+    "ap_mat": null,
+    "nombres": null,
+    "codigo": null,
+    "concepto": null,
+    "obs": null,
+    "flag": null,
+    "estado": null,
+    "telefono": null,
+    "correo": null,
+    "fecha_reg": null,
+    "hora_reg": null
+}
