@@ -43,16 +43,6 @@ QWidget#float_window {
       <height>701</height>
      </rect>
     </property>
-    <widget class="QWidget" name="float_window" native="true">
-     <property name="geometry">
-      <rect>
-       <x>400</x>
-       <y>80</y>
-       <width>481</width>
-       <height>521</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QWidget" name="container" native="true">
      <property name="geometry">
       <rect>
@@ -65,14 +55,37 @@ QWidget#float_window {
      <widget class="QPushButton" name="btn_edit">
       <property name="geometry">
        <rect>
-        <x>1130</x>
-        <y>40</y>
+        <x>80</x>
+        <y>50</y>
         <width>93</width>
         <height>28</height>
        </rect>
       </property>
       <property name="text">
        <string>EDIT</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="float_window" native="true">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>-80</y>
+        <width>481</width>
+        <height>521</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tbl_appoinment">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>1211</width>
+        <height>541</height>
+       </rect>
       </property>
      </widget>
     </widget>
