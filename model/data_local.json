@@ -1,17 +1,1 @@
-{
-    "id_cita": null,
-    "fecha_prog": null,
-    "hora_prog": null,
-    "ap_pat": null,
-    "ap_mat": null,
-    "nombres": null,
-    "codigo": null,
-    "concepto": null,
-    "obs": null,
-    "flag": null,
-    "estado": null,
-    "telefono": null,
-    "correo": null,
-    "fecha_reg": null,
-    "hora_reg": null
-}
+{"-NblUi-o-AnBWGfj6aLM": {"ap_mat": "Perez", "ap_pat": "Gonzalez", "codigo": "JCPG2023", "concepto": "Consulta general", "correo": "juan.gonzalez@example.com", "estado": "Pendiente", "fecha_prog": "2023-08-14", "fecha_reg": "2023-08-10", "flag": "Alta prioridad", "hora_prog": "10:00 AM", "hora_reg": "09:00 AM", "id_cita": "ABC1234", "nombres": "Juan Carlos", "obs": "El paciente mencion\u00f3 alergias a ciertos medicamentos.", "telefono": "+1234567890"}}
