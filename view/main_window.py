@@ -1,20 +1,33 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGraphicsBlurEffect
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
+from controller.load_from_json import get_appointments_list
 
-class VentanaPrincipal(QMainWindow):
+
+class MainUserWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         # Cargar la interfaz desde el archivo .ui
         loadUi("ui/main_window.ui", self)
 
+        # LLENAR LA TABLA
+        self.appointments_list = get_appointments_list()
+        self.fill_table(self.appointments_list)
+
         self.set_fw_highlight()
         # Conectar el botón btn_edit al método toggle_float_window
         self.btn_edit.clicked.connect(self.toggle_float_window)
-        self.adjust_table_widget()
+
+        self.resize_table_widget()
+        self.set_table()
+
+        total_initial_width = self.tbl_appointment.width()
+        self.column_proportions = [self.tbl_appointment.columnWidth(i) / total_initial_width
+                                   for i in range(self.tbl_appointment.columnCount())]
+        # Proporción de las columnas de la tabla
 
 # WIDGETS SETTER AND SIZING METHODS---------------------------------------------------------------------------------------
     def set_fw_highlight(self):
@@ -78,9 +91,10 @@ class VentanaPrincipal(QMainWindow):
         self.overlay.setGeometry(0, 0, self.main_container.width(),
                                  self.main_container.height())
 
-        self.adjust_table_widget()
+        self.resize_table_widget()
+        self.resize_table_columns_width()
 
-    def adjust_table_widget(self):
+    def resize_table_widget(self):
         self.table_margin = 20  # Margen uniforme (lateral, inferior)
         self.table_top_offset = 200  # Separación desde la parte superior
 
@@ -91,8 +105,13 @@ class VentanaPrincipal(QMainWindow):
         # Cálculo para centrar horizontalmente
         table_x_position = int((self.container.width() - table_width) / 2)
 
-        self.tbl_appoinment.setGeometry(
+        self.tbl_appointment.setGeometry(
             table_x_position, self.table_top_offset, table_width, table_height)
+
+    def resize_table_columns_width(self):
+        for index, proportion in enumerate(self.column_proportions):
+            self.tbl_appointment.setColumnWidth(
+                index, int(self.tbl_appointment.width() * proportion))
 
     def toggle_float_window(self):
         if self.float_window.isVisible():
@@ -105,22 +124,36 @@ class VentanaPrincipal(QMainWindow):
 
             width_float_window = 800
             height_float_window = 600
-            x_float_window = (self.main_container.width() -
-                              width_float_window) / 2
-            y_float_window = (self.main_container.height() -
-                              height_float_window) / 2
+            x_float_window = int((self.main_container.width() -
+                                  width_float_window) / 2)
+            y_float_window = int((self.main_container.height() -
+                                  height_float_window) / 2)
             self.float_window.setGeometry(
-                int(x_float_window), int(y_float_window), width_float_window, height_float_window)
+                x_float_window, y_float_window, width_float_window, height_float_window)
 
             self.float_window.show()
             self.overlay.show()
             self.overlay.raise_()  # Asegurar que overlay esté por debajo de float_window
             self.float_window.raise_()  # Asegurar que float_window esté encima
 # ------------------------------------------------------------------------------------------------------------------------
+    """
+    ID CITA, FECHA PROG, HORA PROG AP PAT, AP MAT, NOMBRES, CÓDIGO, CONCEPTO, OBS, FLAG, ESTADO, TELÉFONO, CORREO, FECHA DE REGISTRO, HORA DE REGISTRO
+    MOSTRAR: ID CITA, FECHA PROG, HORA PROG, AP PAT, AP MAT, NOMBRES, CÓDIGO, CONCEPTO, FLAG, ESTADO
+    """
 
+    def set_table(self):
+        self.tbl_appointment.verticalHeader().setFixedWidth(32)
+        self.tbl_appointment.verticalHeader().setDefaultAlignment(
+            Qt.AlignRight | Qt.AlignVCenter)
+        self.tbl_appointment.horizontalHeader().setFixedHeight(40)
+        self.tbl_appointment.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.tbl_appointment.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_win = VentanaPrincipal()
-    main_win.show()
-    sys.exit(app.exec_())
+    def fill_table(self, lists_to_fill):
+        for single_list in lists_to_fill:
+            row_pos = self.tbl_appointment.rowCount()
+            self.tbl_appointment.insertRow(row_pos)
+
+            for i, value in enumerate(single_list):
+                self.tbl_appointment.setItem(
+                    row_pos, i, QTableWidgetItem(value))
